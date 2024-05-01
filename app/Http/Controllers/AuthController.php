@@ -8,6 +8,7 @@ use App\Models\User;
 //use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 //use Illuminate\Support\Facades\Mail;
+use App\Services\MailSender;
 
 class AuthController extends Controller
 {
@@ -52,7 +53,7 @@ class AuthController extends Controller
     public function forgot(Request $request)
     {
         $data = $request->validate([
-            "email" => ["required", "email", "string", "exists:users"],
+            "email" => ["required", "email", "string"],
         ]);
 
         $user = User::where(["email" => $data["email"]])->first();
@@ -67,7 +68,7 @@ class AuthController extends Controller
         return redirect(route("home"));
     }
 
-    public function register(Request $request)
+    public function register(Request $request, MailSender $mailSender)
     {
         $data = $request->validate([
             "name" => ["required", "string"],
@@ -82,6 +83,7 @@ class AuthController extends Controller
         ]);
 
 //        тут може бути викликана відправка повідомння на email для сповіщення або, для підтвердження
+        $mailSender->sendMessage($data["email"], 'success');
 
         if($user) {
             auth("web")->login($user);
