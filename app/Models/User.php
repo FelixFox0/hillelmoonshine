@@ -42,4 +42,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function hasReservationAtTime($time)
+    {
+        return $this->reservations()
+            ->where('start', '<=', $time)
+            ->where('end', '>=', $time)
+            ->exists();
+    }
 }
