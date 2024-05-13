@@ -13,15 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
-
-Route::redirect('/home', '/');
+Route::get('/', function () {return view('reserve');});
+Route::post('/interval', [\App\Http\Controllers\ReserveController::class, 'calculateAvialableIntervals']);
+Route::post('/success', [\App\Http\Controllers\ReserveController::class, 'addUserReserve']);
 
 Route::middleware("auth:web")->group(function () {
     Route::get('/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
-
 });
 
 Route::middleware("guest:web")->group(function () {
