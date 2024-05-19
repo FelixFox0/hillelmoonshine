@@ -33,4 +33,8 @@ Route::middleware("guest:web")->group(function () {
 
     Route::get('/forgot', [\App\Http\Controllers\AuthController::class, 'showForgotForm'])->name('forgot');
     Route::post('/forgot_process', [\App\Http\Controllers\AuthController::class, 'forgot'])->name('forgot_process');
+
+    Route::get('/select-user', [\App\Http\Controllers\ReserveController::class, 'showSelectUserForm'])->name('select_user_from');
+    Route::post('/select-time-slot', [\App\Http\Controllers\ReserveController::class, 'showSelectTimeSlotForm'])->name('select_time_slot');
+    Route::post('/process-reserve', [\App\Http\Controllers\ReserveController::class, 'processBookForm'])->name('process_book_form');
 });
